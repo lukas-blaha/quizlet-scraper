@@ -14,6 +14,7 @@ func main() {
 	xmlFormat := flag.Bool("xml", false, "sets output format to xml")
 	stupidFormat := flag.Bool("stupid", false, "sets output format to stupid")
 	indent := flag.Bool("pretty", false, "enables indentation for json/xml marshalling")
+	fileOutput := flag.String("file", "", "file to be data written to")
 	flag.Parse()
 
 	if flag.NFlag() == 0 {
@@ -36,14 +37,20 @@ func main() {
 		os.Exit(1)
 	}
 
+	out := os.Stdout
+
+	if *fileOutput != "" {
+		out = FileOutput(*fileOutput)
+	}
+
 	switch {
 	case *jsonFormat:
-		JSONOutput(entries, *indent)
+		JSONOutput(entries, *indent, out)
 	case *xmlFormat:
-		XMLOutput(entries, *indent)
+		XMLOutput(entries, *indent, out)
 	case *stupidFormat:
-		StupidOutput(entries)
+		StupidOutput(entries, out)
 	default:
-		NormalOutput(entries)
+		NormalOutput(entries, out)
 	}
 }
