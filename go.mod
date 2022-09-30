@@ -1,4 +1,4 @@
-module github.com/lukas-blaha/tom/scraper
+module github.com/lukas-blaha/quizlet-scraper
 
 go 1.19
 
